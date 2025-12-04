@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <title>CiteGames – Juegos del comedor</title>
+  <title>CiteJuegos – Hub</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <style>
     * {
@@ -14,218 +14,391 @@
 
     body {
       min-height: 100vh;
+      background:
+        radial-gradient(circle at top, #e0f2fe 0, #fdf2ff 35%, #f9fafb 70%, #e5e7eb 100%);
       display: flex;
       align-items: center;
       justify-content: center;
-      background: radial-gradient(circle at top, #bfdbfe 0, #f9fafb 50%, #fee2e2 100%);
       padding: 16px;
       color: #0f172a;
     }
 
     .app {
-      background: rgba(255,255,255,0.96);
-      max-width: 520px;
       width: 100%;
-      border-radius: 24px;
-      padding: 20px 18px 22px;
+      max-width: 900px;
+      background: rgba(255, 255, 255, 0.94);
+      border-radius: 28px;
+      padding: 18px 18px 20px;
       box-shadow:
-        0 20px 40px rgba(15,23,42,0.25),
-        0 0 0 1px rgba(148,163,184,0.6);
+        0 22px 50px rgba(15, 23, 42, 0.18),
+        0 0 0 1px rgba(148, 163, 184, 0.7);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .app::before {
+      content: "";
+      position: absolute;
+      inset: -40%;
+      background:
+        radial-gradient(circle at 0% 0%, rgba(96, 165, 250, 0.22) 0, transparent 55%),
+        radial-gradient(circle at 100% 0%, rgba(244, 114, 182, 0.24) 0, transparent 55%);
+      opacity: 0.8;
+      pointer-events: none;
+    }
+
+    .content {
+      position: relative;
+      z-index: 1;
     }
 
     .header {
-      text-align: center;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
       margin-bottom: 16px;
+    }
+
+    .title-box {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
     }
 
     .title {
       font-size: 1.9rem;
       font-weight: 900;
-      letter-spacing: 0.08em;
+      letter-spacing: 0.16em;
       text-transform: uppercase;
+      color: #0f172a;
     }
 
     .subtitle {
       font-size: 0.9rem;
       color: #4b5563;
-      margin-top: 4px;
+    }
+
+    .subtitle span {
+      font-weight: 600;
+      color: #1f2937;
+    }
+
+    .logo-badge {
+      width: 52px;
+      height: 52px;
+      border-radius: 999px;
+      background:
+        radial-gradient(circle at 30% 20%, #bfdbfe 0, #60a5fa 40%, #fb7185 75%, #f97316 100%);
+      box-shadow: 0 10px 24px rgba(248, 113, 113, 0.6);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 2px solid rgba(248, 250, 252, 0.9);
+      color: #0f172a;
+      font-size: 1.4rem;
+      font-weight: 800;
+    }
+
+    .intro {
+      margin-bottom: 14px;
+      font-size: 0.85rem;
+      color: #4b5563;
+      max-width: 600px;
+      line-height: 1.4;
+    }
+
+    .intro strong {
+      color: #111827;
+    }
+
+    .tag-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 16px;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 4px 9px;
+      border-radius: 999px;
+      font-size: 0.75rem;
+      border: 1px solid rgba(148, 163, 184, 0.9);
+      background: rgba(255, 255, 255, 0.9);
+      color: #111827;
+    }
+
+    .tag span {
+      font-size: 0.85rem;
     }
 
     .grid {
-      margin-top: 14px;
       display: grid;
-      gap: 10px;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
     }
 
-    @media (min-width: 480px) {
+    @media (max-width: 720px) {
       .grid {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
+        grid-template-columns: 1fr;
+      }
+      .header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .logo-badge {
+        align-self: flex-end;
       }
     }
 
     .card {
-      border-radius: 18px;
-      padding: 12px 12px 13px;
+      position: relative;
+      border-radius: 20px;
+      padding: 12px 12px 14px;
+      background: #f9fafb;
       border: 1px solid #e5e7eb;
-      background: #ffffff;
-      box-shadow: 0 6px 14px rgba(15,23,42,0.08);
+      box-shadow: 0 8px 18px rgba(15, 23, 42, 0.06);
       display: flex;
       flex-direction: column;
-      justify-content: space-between;
       gap: 6px;
+      overflow: hidden;
+    }
+
+    .card::before {
+      content: "";
+      position: absolute;
+      inset-inline: -40%;
+      top: -40%;
+      height: 60%;
+      opacity: 0.9;
+      background: radial-gradient(circle at 0% 0%, rgba(96, 165, 250, 0.2) 0, transparent 55%);
+      pointer-events: none;
     }
 
     .card-header {
+      position: relative;
       display: flex;
       align-items: center;
+      justify-content: space-between;
       gap: 8px;
     }
 
-    .badge {
-      width: 26px;
-      height: 26px;
-      border-radius: 999px;
+    .card-title-box {
       display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 0.9rem;
-      font-weight: 700;
-      color: #0f172a;
-    }
-
-    .badge.blanco {
-      background: #bfdbfe;
-      border: 1px solid #60a5fa;
-    }
-
-    .badge.detective {
-      background: #e5e7eb;
-      border: 1px solid #9ca3af;
-    }
-
-    .badge.patata {
-      background: #fde68a;
-      border: 1px solid #fbbf24;
+      flex-direction: column;
+      gap: 2px;
     }
 
     .card-title {
       font-size: 1rem;
       font-weight: 800;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      color: #0f172a;
     }
 
-    .card-desc {
+    .card-pill {
+      font-size: 0.65rem;
+      padding: 2px 7px;
+      border-radius: 999px;
+      background: rgba(17, 24, 39, 0.06);
+      color: #4b5563;
+      border: 1px solid rgba(148, 163, 184, 0.6);
+    }
+
+    .card-emoji {
+      font-size: 1.3rem;
+    }
+
+    .card-body {
+      position: relative;
       font-size: 0.8rem;
       color: #4b5563;
+      line-height: 1.35;
     }
 
-    a.button {
-      margin-top: 4px;
+    .card-footer {
+      position: relative;
+      margin-top: 6px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .card-meta {
+      font-size: 0.72rem;
+      color: #6b7280;
+    }
+
+    .btn {
+      border-radius: 999px;
+      border: none;
+      padding: 7px 12px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
       display: inline-flex;
       align-items: center;
-      justify-content: center;
-      padding: 8px 10px;
-      border-radius: 999px;
-      font-size: 0.85rem;
-      font-weight: 600;
-      text-decoration: none;
-      border: none;
-      cursor: pointer;
+      gap: 6px;
+      background: #0f172a;
+      color: #f9fafb;
+      box-shadow: 0 6px 14px rgba(15, 23, 42, 0.4);
       transition: transform 0.05s ease, box-shadow 0.05s ease, background 0.15s ease;
-      color: #0f172a;
-      background: linear-gradient(135deg, #60a5fa, #fb7185);
-      box-shadow: 0 6px 14px rgba(248,113,113,0.45);
-      text-align: center;
     }
 
-    a.button:active {
+    .btn span {
+      font-size: 0.9rem;
+    }
+
+    .btn:hover {
+      background: #111827;
+    }
+
+    .btn:active {
       transform: scale(0.97);
       box-shadow: none;
     }
 
-    .footer {
+    .note {
       margin-top: 10px;
       font-size: 0.75rem;
       color: #6b7280;
-      text-align: center;
     }
   </style>
 </head>
 <body>
   <div class="app">
-    <div class="header">
-      <div class="title">CiteGames</div>
-      <div class="subtitle">
-        Selecciona el juego para usar en el comedor.
-      </div>
-    </div>
-
-    <div class="grid">
-      <!-- CITEBLANCO -->
-      <div class="card">
-        <div>
-          <div class="card-header">
-            <div class="badge blanco">B</div>
-            <div class="card-title">CiteBlanco</div>
-          </div>
-          <div class="card-desc">
-            Juego de normas e impostoras. Cada una recibe una pauta secreta o es el CiteBlanco.
+    <div class="content">
+      <div class="header">
+        <div class="title-box">
+          <div class="title">CITEJUEGOS</div>
+          <div class="subtitle">
+            Mini-juegos para el comedor de <span>Citema</span>:
+            normas, historias, patatas y misterios.
           </div>
         </div>
-        <a
-          class="button"
-          href="https://citejuegos.github.io/CiteBlanco/"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Abrir CiteBlanco
-        </a>
+        <div class="logo-badge">C</div>
       </div>
 
-      <!-- CITECTIVE -->
-      <div class="card">
-        <div>
+      <p class="intro">
+        Desde este hub puedes acceder a los cuatro juegos. El móvil lo sostiene siempre el terapeuta,
+        y las pacientes solo necesitan escuchar, hablar y participar en grupo. Puedes actualizar los juegos
+        cuando quieras: el enlace y el QR seguirán siendo los mismos.
+      </p>
+
+      <div class="tag-row">
+        <div class="tag"><span>🧠</span> Activación cognitiva suave</div>
+        <div class="tag"><span>👂</span> Participación verbal</div>
+        <div class="tag"><span>🍽️</span> Pensado para el comedor</div>
+        <div class="tag"><span>🎲</span> Reglas sencillas</div>
+      </div>
+
+      <div class="grid">
+        <!-- CITEBLANCO -->
+        <div class="card">
           <div class="card-header">
-            <div class="badge detective">🔍</div>
-            <div class="card-title">Citective</div>
+            <div class="card-title-box">
+              <div class="card-title">
+                CiteBlanco
+                <span class="card-emoji">🎭</span>
+              </div>
+              <div class="card-pill">Juego de normas e impostoras</div>
+            </div>
           </div>
-          <div class="card-desc">
-            Historias por pistas. Cada mesa recibe pistas y tiene que reconstruir qué ha pasado.
+          <div class="card-body">
+            Cada jugadora recibe una norma secreta… excepto las CiteBlanco. El grupo tiene que descubrir
+            quién no está siguiendo la norma escondida a través de lo que dicen y hacen.
+          </div>
+          <div class="card-footer">
+            <div class="card-meta">Ideal para romper el hielo y escuchar a todas.</div>
+            <a class="btn" href="https://citejuegos.github.io/CiteBlanco/" target="_blank" rel="noopener noreferrer">
+              <span>Jugar</span> →
+            </a>
           </div>
         </div>
-        <a
-          class="button"
-          href="https://citejuegos.github.io/Citective/"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Abrir Citective
-        </a>
-      </div>
 
-      <!-- CITEHOTPOTATO -->
-      <div class="card" style="grid-column: 1 / -1;">
-        <div>
+        <!-- CITECTIVE -->
+        <div class="card">
           <div class="card-header">
-            <div class="badge patata">🥔</div>
-            <div class="card-title">CiteHotPotato</div>
+            <div class="card-title-box">
+              <div class="card-title">
+                Citective
+                <span class="card-emoji">🕵️‍♀️</span>
+              </div>
+              <div class="card-pill">Historias con pistas repartidas</div>
+            </div>
           </div>
-          <div class="card-desc">
-            Preguntas numéricas de cultura general mientras la patata se infla… hasta que hace PUM.
+          <div class="card-body">
+            Cada mesa recibe las mismas pistas repartidas entre sus jugadoras. Tienen que poner en común
+            lo que les ha tocado y reconstruir la historia escondida antes que la otra mesa.
+          </div>
+          <div class="card-footer">
+            <div class="card-meta">Trabaja cooperación, escucha y narración conjunta.</div>
+            <a class="btn" href="https://citejuegos.github.io/Citective/" target="_blank" rel="noopener noreferrer">
+              <span>Jugar</span> →
+            </a>
           </div>
         </div>
-        <a
-          class="button"
-          href="https://citejuegos.github.io/CiteHotPotato/"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Abrir CiteHotPotato
-        </a>
-      </div>
-    </div>
 
-    <div class="footer">
-      El móvil siempre lo sostiene el terapeuta. Elegid el juego según la energía del grupo.
+        <!-- CITEHOTPOTATO -->
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title-box">
+              <div class="card-title">
+                CiteHotPotato
+                <span class="card-emoji">🥔</span>
+              </div>
+              <div class="card-pill">Patata caliente numérica</div>
+            </div>
+          </div>
+          <div class="card-body">
+            Una patata que se va “hinchando” mientras tratan de adivinar un número oculto
+            (más / menos). Modo individual o grupal, con preguntas de cultura general.
+          </div>
+          <div class="card-footer">
+            <div class="card-meta">Añade tensión lúdica sin necesidad de moverse.</div>
+            <a class="btn" href="https://citejuegos.github.io/CiteHotPotato/" target="_blank" rel="noopener noreferrer">
+              <span>Jugar</span> →
+            </a>
+          </div>
+        </div>
+
+        <!-- CITECLUEDO -->
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title-box">
+              <div class="card-title">
+                CiteCluedo
+                <span class="card-emoji">🐾🔪</span>
+              </div>
+              <div class="card-pill">Misterio del catering sin tablero</div>
+            </div>
+          </div>
+          <div class="card-body">
+            El repartidor del catering ha aparecido noqueado. Hay una persona, un lugar y un objeto
+            culpables. Se reparten cartas en secreto y, por turnos, el grupo va haciendo acusaciones
+            y refutaciones para resolver el caso.
+          </div>
+          <div class="card-footer">
+            <div class="card-meta">Versión adaptada de Cluedo para jugar sentadas.</div>
+            <a class="btn" href="https://citejuegos.github.io/CiteCluedo/" target="_blank" rel="noopener noreferrer">
+              <span>Jugar</span> →
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <p class="note">
+        Puedes crear un único QR que apunte a esta página del hub. Aunque edites o mejores los juegos,
+        mientras mantengas las URLs, el QR seguirá sirviendo para acceder a todo.
+      </p>
     </div>
   </div>
 </body>
